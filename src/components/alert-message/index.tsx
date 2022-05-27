@@ -1,15 +1,20 @@
-import { FC } from 'react'
-import { useComponentContext } from '../component-context'
+import React, { FC } from 'react'
 import { Alert, Snackbar } from '@mui/material'
+import { useFormContext } from 'contexts/form-context'
+
+// For some stupid reason Chrome doesn't support onClose={handleClose} and throws an error, even though MUI docs says it's fine: https://mui.com/material-ui/react-snackbar/#customization.
+// for your own sanity do not touch it!
 
 export const AlertMessage: FC = () => {
-  const { open, handleClose } = useComponentContext()
+  const { showAlert, handleClose } = useFormContext()
+
   const vertical = 'top'
   const horizontal = 'right'
+
   return (
     <Snackbar
       anchorOrigin={{ vertical, horizontal }}
-      open={open}
+      open={showAlert}
       autoHideDuration={3000}
       onClose={handleClose}
     >

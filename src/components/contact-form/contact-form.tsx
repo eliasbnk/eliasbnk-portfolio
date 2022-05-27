@@ -1,53 +1,45 @@
-import React, { useRef, FC } from 'react';
+import React, { FC } from 'react'
+import { Grid, Button, Card, CardContent, Typography } from '@mui/material'
+import { useFormContext } from 'contexts/form-context'
+import { AlertMessage } from 'components/alert-message'
+import { InputField } from './input-field'
 
-import { Grid, Button, Card, CardContent, Typography } from '@mui/material';
-import { InputField } from './input';
-import { useComponentContext } from '../component-context';
 export const ContactForm: FC = () => {
-  const form = useRef() as React.MutableRefObject<HTMLFormElement>;
-  const { sendEmail } = useComponentContext();
+  const { handleSubmit, hasErrors } = useFormContext()
 
-  const handleSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
-    form: React.MutableRefObject<HTMLFormElement>
-  ) => {
-    e.preventDefault();
-    sendEmail(e, form);
-  };
-
+  const disabled = hasErrors()
   return (
     <>
+      <AlertMessage />
       <Grid>
-        <Card style={{ maxWidth: 450, padding: '20px 5px', margin: '0 auto' }}>
+        <Card
+          style={{
+            border: 'none',
+            boxShadow: 'none',
+            maxWidth: '28.125em',
+            padding: '1.25em 0.3125em',
+            margin: '0 auto'
+          }}
+        >
           <CardContent>
             <Typography gutterBottom variant='h5'>
               Lets Get In Touch
             </Typography>
-            <form ref={form} onSubmit={handleSubmit}>
+
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                handleSubmit()
+              }}
+              autoComplete='off'
+            >
               <Grid container spacing={1}>
-                <InputField
-                  data-testid='name-input-field'
-                  emailjsIdentifier={'name'}
-                  label={'Name'}
-                />
-                <InputField
-                  data-testid='email-input-field'
-                  emailjsIdentifier={'email'}
-                  label={'Email'}
-                />
-                <InputField
-                  data-testid='phone-number-input-field'
-                  emailjsIdentifier={'phone_number'}
-                  label={'Phone Number'}
-                />
-                <InputField
-                  data-testid='message-input-field'
-                  emailjsIdentifier={'message'}
-                  label={'Message'}
-                />
+                <InputField label={'Name'} id={'name'} />
+                <InputField label={'Email'} id={'email'} />
+                <InputField label={'Message'} id={'message'} />
                 <Grid item xs={12}>
                   <Button
-                    data-testid='contact-form-send-button'
+                    disabled={disabled}
                     type='submit'
                     variant='contained'
                     color='primary'
@@ -62,5 +54,5 @@ export const ContactForm: FC = () => {
         </Card>
       </Grid>
     </>
-  );
-};
+  )
+}
