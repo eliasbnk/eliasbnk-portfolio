@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Grid, Button, Card, CardContent, Typography } from '@mui/material'
 import { useFormContext } from 'contexts/form-context'
-import { AlertMessage } from 'components/alert-message'
+import { AlertMessage } from 'components/contact-form/alert-message'
 import { InputField } from './input-field'
 
 export const ContactForm: FC = () => {

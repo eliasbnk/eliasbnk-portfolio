@@ -11,18 +11,19 @@ export const InputField: FC<InputFieldProps> = ({ label, id }) => {
   const { inputValue, errorMessage, touchedElement, handleBlur, handleChange } =
     useFormContext()
 
+  const value = inputValue(id, label)
+  const error =
+    errorMessage(id, label) && touchedElement(id, label) ? true : false
+  const helperText =
+    errorMessage(id, label) && touchedElement(id, label)
+      ? errorMessage(id, label)
+      : ''
   return (
     <Grid item xs={12}>
       <TextField
-        value={inputValue(id, label)}
-        error={
-          errorMessage(id, label) && touchedElement(id, label) ? true : false
-        }
-        helperText={
-          errorMessage(id, label) && touchedElement(id, label)
-            ? errorMessage(id, label)
-            : ''
-        }
+        value={value}
+        error={error}
+        helperText={helperText}
         id={id}
         name={id}
         label={label}
